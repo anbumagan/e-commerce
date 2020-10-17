@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import React from 'react'
-import { AsyncStorage, View } from 'react-native'
+import { AsyncStorage, Text, View } from 'react-native'
 import PlaceOrderScreen from './PlaceOrderScreen'
 
 export default class DetailsScreens extends React.Component{
@@ -29,7 +29,7 @@ export default class DetailsScreens extends React.Component{
         if(this.state.formStatus === false){
             return(
                 <View>
-                    
+                    <Text>jj</Text>
                 </View>
             )
         }else{

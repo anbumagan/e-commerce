@@ -18,7 +18,7 @@ export default class ProductDescScreen extends React.Component{
         const img = navigation.getParam('img');
         const price = navigation.getParam('price');
         const name = navigation.getParam('name')
-        this.props.navigation.navigate('Details',{
+        this.props.navigation.navigate('PlaceOrder',{
             pdt_id: id,
             pdt_name: name,
             pdt_category: category,
