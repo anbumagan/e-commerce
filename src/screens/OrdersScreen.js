@@ -1,10 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
+import Header from '../components/Header'
 
 export default class OrdersScreen extends React.Component{
     render(){
         return(
-            <View></View>
+            <View>
+                <Header {...this.props}/>
+            </View>
         )
     }
 }

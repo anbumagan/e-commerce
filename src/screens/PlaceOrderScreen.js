@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React from 'react'
-import { Alert, AsyncStorage, Dimensions, Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, AsyncStorage, Dimensions, Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
 
 export default class PlaceOrderScreen extends React.Component{
     state={
@@ -36,7 +36,7 @@ export default class PlaceOrderScreen extends React.Component{
             Axios.post("http://192.168.43.55:8080/api/customerdetails",{
                 id: res
             }).then((res1)=>{
-                if(res1.data[0].first_name !== undefined){
+                if(res1.data[0].first_name !== null){
                 this.setState({
                 fn:res1.data[0].first_name,
                 ln: res1.data[0].last_name,
@@ -56,6 +56,7 @@ export default class PlaceOrderScreen extends React.Component{
         })
     }
     placeOrder(){
+        if(this.state.formStatus === true){
         const  {navigation} = this.props;
         const pdt_id = navigation.getParam('pdt_id');
         const pdt_category = navigation.getParam('pdt_category'); 
@@ -73,7 +74,9 @@ export default class PlaceOrderScreen extends React.Component{
                     this.props.navigation.goBack()
                 }
             })
-        })
+        })}else{
+            ToastAndroid.show("please enter your address",ToastAndroid.SHORT)
+        }
     }
     render(){
         const  {navigation} = this.props;
@@ -173,7 +176,7 @@ export default class PlaceOrderScreen extends React.Component{
                         <Text style={styles.text3}>{this.state.dist}</Text>
                         <Text style={styles.text3}>{this.state.pin}</Text>
                         <TouchableOpacity onPress={()=>{this.setState({formStatus: false})}}>
-                            <View style={[styles.button,{borderRadius:5,width:Dimensions.get('window').width/3,height:25,alignSelf:'center',margin:10}]}>
+                            <View>
                                 <Text style={styles.buttontext}>Update or Add address</Text>
                             </View>
                         </TouchableOpacity>
@@ -182,7 +185,7 @@ export default class PlaceOrderScreen extends React.Component{
                 <View style={{position:'absolute',bottom:0}}>
                     <TouchableOpacity onPress={()=>{this.placeOrder()}}>
                         <View style={styles.button}>
-                            <Text style={[styles.buttontext,{fontSize:20}]}>Proceed to buy</Text>
+                            <Text style={styles.buttontext}>Proceed to buy</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -202,7 +205,7 @@ const styles = StyleSheet.create({
     },
     text1:{
         fontFamily:'Jost-Regular',
-        fontSize:20,
+        fontSize:16,
         color:'grey',
         textTransform:'capitalize',
         paddingHorizontal:10,
@@ -211,7 +214,7 @@ const styles = StyleSheet.create({
         },
     text2:{
         fontFamily:'Jost-SemiBold',
-        fontSize:24,
+        fontSize:20,
         paddingHorizontal:10,
         paddingBottom:5
         }, 
@@ -226,14 +229,19 @@ const styles = StyleSheet.create({
     button:{
         width:Dimensions.get('window').width,
         height:50,
-        backgroundColor:'rgb(58, 117, 254)',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        backgroundColor:'rgb(58, 117, 254)',
     },
     buttontext:{
         fontFamily: "Jost-SemiBold",
+        fontSize:16,
+        width: Dimensions.get('window').width/3,
         color:'white',
-        textAlign:'center'
+        textAlign:'center',
+        backgroundColor:'rgb(58, 117, 254)',
+        borderRadius:5,
+        alignSelf:'center'
     },
     fieldSet:{
         justifyContent:'center',

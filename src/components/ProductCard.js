@@ -1,7 +1,20 @@
+import Axios from 'axios';
 import React from 'react';
-import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { AsyncStorage, Dimensions, Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native';
 
 export default class ProductCard extends React.Component{
+    addToWish(){
+        const {id,category} = this.props.item;
+        AsyncStorage.getItem('userId').then((res)=>{
+            Axios.post("http://192.168.43.55:8080/addtowishlist",{
+                id: res,
+                product_id: id,
+                category: category
+            }).then((res1)=>{
+                ToastAndroid.show(res1.data.message,ToastAndroid.SHORT)
+            })
+        })
+    }
     render(){
         const {id,name,img,price,category} = this.props.item;
         return(
@@ -25,7 +38,7 @@ export default class ProductCard extends React.Component{
                     <View><Text style={styles.text2}>Rs.{price}/-</Text></View>
                 </View>
                 <View style={{width:(Dimensions.get('window').width-10)/10}}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={()=>{this.addToWish()}}>
                     <Image style={{width:25,height:25,resizeMode:'stretch'}} source={require('../../assets/icons/wish-list.png')} />
                     </TouchableOpacity>
                 </View>

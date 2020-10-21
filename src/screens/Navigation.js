@@ -35,65 +35,23 @@ const AuthNav = createStackNavigator({
         }
     }
 })
-
-const HomeStack = createStackNavigator({
-    Home: {
-        screen:HomeScreen,
-        navigationOptions:({ navigation }) => ({
-            headerTitle:<Text style={{textTransform:'uppercase',textAlign:'center',fontFamily:'Jost-SemiBold',fontSize:25}}>Anand & co</Text>,
-            headerLeft: 
-            <TouchableOpacity  onPress={()=>{navigation.openDrawer()}}>
-                <Image source={require('../../assets/icons/menu.png')} style={{width: 25,height:25,margin:10,resizeMode:'stretch'}} />
-            </TouchableOpacity>,
-            headerRight:
-            <TouchableOpacity  onPress={()=>{navigation.navigate('Order')}}>
-                <Image source={require('../../assets/icons/order.png')} style={{width: 25,height:25,margin:10,resizeMode:'stretch'}} />
-            </TouchableOpacity>
-        })
-    }
-})
-const OrderStack = createStackNavigator({
-    Order: {
-        screen:OrdersScreen,
-        navigationOptions:({ navigation }) => ({
-            headerTitle:<Text style={{textTransform:'uppercase',textAlign:'center',fontFamily:'Jost-SemiBold',fontSize:25}}>Anand & co</Text>,
-            headerLeft: 
-            <TouchableOpacity  onPress={()=>{navigation.openDrawer()}}>
-                <Image source={require('../../assets/icons/menu.png')} style={{width: 25,height:25,margin:10,resizeMode:'stretch'}} />
-            </TouchableOpacity>,
-            headerRight:
-            <TouchableOpacity  onPress={()=>{navigation.navigate('Order')}}>
-                <Image source={require('../../assets/icons/order.png')} style={{width: 25,height:25,margin:10,resizeMode:'stretch'}} />
-            </TouchableOpacity>
-        })
-    }
-})
-const WishStack = createStackNavigator({
-    Wish: {
-        screen:WishlistScreen,
-        navigationOptions:({ navigation }) => ({
-            headerTitle:<Text style={{textTransform:'uppercase',textAlign:'center',fontFamily:'Jost-SemiBold',fontSize:25}}>Anand & co</Text>,
-            headerLeft: 
-            <TouchableOpacity  onPress={()=>{navigation.openDrawer()}}>
-                <Image source={require('../../assets/icons/menu.png')} style={{width: 25,height:25,margin:10,resizeMode:'stretch'}} />
-            </TouchableOpacity>,
-            headerRight:
-            <TouchableOpacity  onPress={()=>{navigation.navigate('Order')}}>
-                <Image source={require('../../assets/icons/order.png')} style={{width: 25,height:25,margin:10,resizeMode:'stretch'}} />
-            </TouchableOpacity>
-        })
-    }
-})
-
 const drawerNav = createDrawerNavigator({
     Home: {
-        screen:HomeStack
+        screen:HomeScreen,
+        navigationOptions:{
+            headerShown: false
+        }    
     },
     My_Orders:{
-        screen: OrderStack
-    },
+        screen:OrdersScreen,
+        navigationOptions:{
+            headerShown: false
+        }    },
     My_Wishlist:{
-        screen: WishStack
+        screen:WishlistScreen,
+        navigationOptions:{
+            headerShown:false
+        }    
     }
     },
     {

@@ -8,7 +8,6 @@ const icons = [
 export default class DrawerScreen extends React.Component{
     render(){
         var arr = this.props.navigation.state.routes
-        console.log(this.props)
         return(
             <View style={{flex:1}}>
                 <View elevation={6} style={{height:200,backgroundColor:'rgb(58, 117, 254)',justifyContent:'flex-end'}}>
