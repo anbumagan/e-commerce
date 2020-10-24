@@ -7,12 +7,13 @@ export default class LoginScreen extends React.Component{
     pass: null
   }
   SignIn(){
-    Axios.post("http://192.168.43.55:8080/api/login",{
+    Axios.post("http://18.218.166.188:8080/api/login",{
       email: this.state.email,
       password: this.state.pass
     })
     .then((res)=>{
       AsyncStorage.setItem('userId', res.data.identifier);
+      console.log(res.data.identifier)
       AsyncStorage.setItem('userToken', res.data.token);
       this.props.navigation.navigate('Home')
     })

@@ -10,7 +10,7 @@ import OrdersScreen from './OrdersScreen'
 import WishlistScreen from './WishlistScreen'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import DrawerScreen from './DrawerScreen'
-import ProductDescScreen from './ProductDescScreen'
+import ProductDescScreen from './DescScreen'
 import LoadingScreen from './LoadingScreen'
 import PlaceOrderScreen from './PlaceOrderScreen'
 import DetailsScreens from './DetailsScreen'
@@ -38,20 +38,13 @@ const AuthNav = createStackNavigator({
 const drawerNav = createDrawerNavigator({
     Home: {
         screen:HomeScreen,
-        navigationOptions:{
-            headerShown: false
-        }    
+   
     },
     My_Orders:{
         screen:OrdersScreen,
-        navigationOptions:{
-            headerShown: false
-        }    },
+    },
     My_Wishlist:{
-        screen:WishlistScreen,
-        navigationOptions:{
-            headerShown:false
-        }    
+        screen:WishlistScreen,  
     }
     },
     {

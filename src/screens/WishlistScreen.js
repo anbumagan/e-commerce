@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import React from 'react'
-import { AsyncStorage, Dimensions, FlatList, Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native'
+import { AsyncStorage, BackHandler, Dimensions, FlatList, Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native'
 import Header from '../components/Header';
 
 export default class WishlistScreen extends React.Component{
@@ -17,7 +17,7 @@ export default class WishlistScreen extends React.Component{
             wish: this.state.wish.slice(0,i).concat(this.state.wish.slice(i+1,this.state.wish.length))
         })
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://192.168.43.55:8080/removewishlist",{
+            Axios.post("http://18.218.166.188:8080/removewishlist",{
                 id:res,
                 product_id: id
             })
@@ -26,28 +26,22 @@ export default class WishlistScreen extends React.Component{
             })
         })
     }
-    async componentDidMount(){
-        // do some stuff on every screen focus
-        const isFocused = this.props.navigation.isFocused();
-        console.log(isFocused)
-        await AsyncStorage.getItem('userId').then((res)=>{
-            this.setState({
-                userId: res
-            })
-        })
-        await Axios.post("http://192.168.43.55:8080/retrivewishlist",{
-                id:this.state.userId
+    componentDidMount() {
+        this.subs = this.props.navigation.addListener("didFocus", () =>
+        AsyncStorage.getItem('userId').then((res)=>{
+            Axios.post("http://18.218.166.188:8080/retrivewishlist",{
+                id:res
             }).then((res1)=>{
                 var arr = []
                 for(var i=0;i<res1.data.length;i++){
-                    Axios.post("http://192.168.43.55:8080/retriveproduct",{
+                    Axios.post("http://18.218.166.188:8080/retriveproduct",{
                         product_id: res1.data[i].product_id
                     })
                     .then((res2)=>{
                         arr.push({
                             "id": res2.data._id,
                             "name": res2.data.name,
-                            "img": `data:image/jpg;base64,${res2.data.data}`,
+                            "img": res2.data.data,
                             "price": res2.data.price,
                             "category": res2.data.category
                         })
@@ -57,6 +51,10 @@ export default class WishlistScreen extends React.Component{
                     })
                 }
             })
+        })            );
+      }
+    componentWillUnmount(){
+        BackHandler.removeEventListener(this.subs);
     }
     render(){
         if(this.state.wish.length != 0){

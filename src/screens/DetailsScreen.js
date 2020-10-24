@@ -10,7 +10,7 @@ export default class DetailsScreens extends React.Component{
     componentDidMount(){
         AsyncStorage.getItem('userId').then((res)=>{
             console.log(res)
-            Axios.post("http://192.168.43.55:8080/api/customerdetails",{
+            Axios.post("http://18.218.166.188:8080/api/customerdetails",{
                 id: res
             }).then((res1)=>{
                 if(res1.data.mobile_no === undefined && res1.data.address === undefined){

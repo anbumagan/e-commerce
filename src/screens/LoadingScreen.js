@@ -5,7 +5,7 @@ import { ActivityIndicator, AsyncStorage, View } from 'react-native'
 export default class LoadingScreen extends React.Component{
     componentDidMount(){
         AsyncStorage.getItem('userToken').then((res)=>{
-            Axios.post("http://192.168.43.55:8080/api",{},{
+            Axios.post("http://18.218.166.188:8080/api",{},{
                 headers:{
                     'Authorization' : "Bearer "+res
                 }

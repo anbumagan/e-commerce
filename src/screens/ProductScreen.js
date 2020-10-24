@@ -10,7 +10,7 @@ export default class extends React.Component{
     componentDidMount(){
         const { navigation } = this.props;  
         const category = navigation.getParam('category')
-        var url = "http://192.168.43.55:8080/"+category+"";
+        var url = "http://18.218.166.188:8080/"+category+"";
         Axios.get(url)
         .then((res)=>{
             var arr=[]
@@ -18,7 +18,7 @@ export default class extends React.Component{
                 arr.push({
                     "id": res.data[i]._id,
                     "name": res.data[i].name,
-                    "img": `data:image/jpg;base64,${res.data[i].data}`,
+                    "img": res.data[i].data,
                     "price": res.data[i].price,
                     "category": res.data[i].category
                 })

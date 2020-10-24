@@ -16,7 +16,7 @@ export default class Carousel extends React.Component{
         this.scrollView = React.createRef();
     }
     componentDidMount(){
-        Axios.get("http://192.168.43.55:8080/carousel")
+        Axios.get("http://18.218.166.188:8080/carousel")
         .then((res)=>{
             var arr=[]
             for(var i=0;i<res.data.length;i++){
@@ -76,7 +76,7 @@ export default class Carousel extends React.Component{
                         <View key={i} style={{position:"relative"}}>
                             <Image 
                             style={{width:WIDTH,height: 200,resizeMode:'stretch'}} 
-                            source={{uri: `data:image/jpg;base64,${img}`}}/>
+                            source={{uri: img}}/>
                             <View 
                             style={{position:'absolute',flexDirection:'row',height:200,width:WIDTH,alignItems:'flex-end',justifyContent:'center',padding:10}} >
                                 {Array.from({length: this.state.image.length}).map((_,index)=>(
