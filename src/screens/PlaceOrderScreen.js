@@ -14,7 +14,7 @@ export default class PlaceOrderScreen extends React.Component{
     }
     updateAddr(){
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://18.218.166.188:8080/api/updatecustomerdetails",{
+            Axios.post("http://192.168.225.123:8000/api/updatecustomerdetails",{
                 id: res,
                 fn: this.state.fn,
                 ln:  this.state.ln,
@@ -33,7 +33,7 @@ export default class PlaceOrderScreen extends React.Component{
     }
     componentDidMount(){
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://18.218.166.188:8080/api/customerdetails",{
+            Axios.post("http://192.168.225.123:8000/api/customerdetails",{
                 id: res
             }).then((res1)=>{
                 if(res1.data[0].first_name !== null){
@@ -61,7 +61,7 @@ export default class PlaceOrderScreen extends React.Component{
         const pdt_id = navigation.getParam('pdt_id');
         const pdt_category = navigation.getParam('pdt_category'); 
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://18.218.166.188:8080/placeorder",{
+            Axios.post("http://192.168.225.123:8000/placeorder",{
                 id: res,
                 productId: pdt_id,
                 category: pdt_category

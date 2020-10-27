@@ -1,15 +1,16 @@
 import Axios from 'axios'
 import React from 'react'
-import { AsyncStorage, BackHandler, Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, AsyncStorage, BackHandler, Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Header from '../components/Header'
 
 export default class OrdersScreen extends React.Component{
     state={
-        orders:[]
+        orders:[],
+        Load: true
     }
     componentWillMount(){
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://18.218.166.188:8080/retriveorders",{
+            Axios.post("http://192.168.225.123:8000/retriveorders",{
                 id:res
             }).then((res1)=>{
                 var arr=[]
@@ -17,7 +18,7 @@ export default class OrdersScreen extends React.Component{
                     var d = res1.data[i].deliverstatus
                     var p = res1.data[i].paymentMode
                     var date = res1.data[i].date
-                    Axios.post("http://18.218.166.188:8080/retriveproduct",{
+                    Axios.post("http://192.168.225.123:8000/retriveproduct",{
                         product_id: res1.data[i].product_id
                     }).then((res2)=>{
                         arr.push({
@@ -31,7 +32,8 @@ export default class OrdersScreen extends React.Component{
                             "date": date  
                         })
                         this.setState({
-                            orders: arr
+                            orders: arr,
+                            Load: false
                         })
                     })
                 }
@@ -39,7 +41,7 @@ export default class OrdersScreen extends React.Component{
         })
         this.subs = this.props.navigation.addListener("didFocus",()=>{
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://18.218.166.188:8080/retriveorders",{
+            Axios.post("http://192.168.225.123:8000/retriveorders",{
                 id:res
             }).then((res1)=>{
                 var arr=[]
@@ -47,7 +49,7 @@ export default class OrdersScreen extends React.Component{
                     var d = res1.data[i].deliverstatus
                     var p = res1.data[i].paymentMode
                     var date = res1.data[i].date
-                    Axios.post("http://18.218.166.188:8080/retriveproduct",{
+                    Axios.post("http://192.168.225.123:8000/retriveproduct",{
                         product_id: res1.data[i].product_id
                     }).then((res2)=>{
                         arr.push({
@@ -61,7 +63,8 @@ export default class OrdersScreen extends React.Component{
                             "date": date  
                         })
                         this.setState({
-                            orders: arr
+                            orders: arr,
+                            Load: false
                         })
                     })
                 }
@@ -73,44 +76,63 @@ export default class OrdersScreen extends React.Component{
        this.subs.remove()
     }
     render(){
-        return(
-            <View>
-                <Header {...this.props}/>
-                <FlatList 
-                    data={this.state.orders}
-                    renderItem={({item})=>{
-                        return(
-                            <TouchableOpacity onPress={()=>{
-                                this.props.navigation.navigate('ProdDesc',{
-                                    id: item.id,
-                                    category: item.category,
-                                    img: item.img,
-                                    price: item.price,
-                                    name: item.name,
-                                    deliverstatus: item.deliverstatus,
-                                    paymentMode: item.paymentMode
-                                })
-                            }}>
-                            <View style={styles.cont}>
-                                <View style={{width:(Dimensions.get('window').width-10)/3}}>
-                                    <Image source={{uri: item.img}} style={styles.img} />
-                                </View>
-                                <View style={{width:(Dimensions.get('window').width-10)/3,flexDirection:'column',justifyContent:'flex-start'}}>
-                                    <View><Text style={styles.text1}>{item.name}</Text></View>
-                                    <View><Text style={styles.text2}>Rs.{item.price}/-</Text></View>
-                                </View>
-                                <View style={{width:(Dimensions.get('window').width-10)/3}}>
-                                <View><Text style={[styles.text1,{color:'red',textAlign:'center'}]}>{item.deliverstatus}</Text></View>
-                                </View>
-                            </View>
-                            </TouchableOpacity>
-                        )
-                    }}
-                    keyExtractor={(item)=>item.id}
-                    numColumns={1}
-                />
-            </View>
-        )
+        if(this.state.Load === true){
+            return(
+                <View style={{flex:1,backgroundColor:'white',justifyContent:'center',alignContent:'center'}}>
+                    <ActivityIndicator color="rgb(58, 117, 254)" size='large'>
+
+                    </ActivityIndicator>
+                </View>
+            )
+        }else{
+            if(this.state.orders.length === 0){
+                return(
+                <View style={{flex:1,backgroundColor:'white',justifyContent:'center',alignItems:'center'}}>
+                    <View style={{position:'absolute',top:0}}><Header {...this.props}/></View>
+                    <Text style={styles.text2}>No more items in wishlist</Text>
+                </View>
+                )
+            }else{
+                return(
+                    <ScrollView>
+                        <Header {...this.props}/>
+                        <FlatList 
+                            data={this.state.orders}
+                            renderItem={({item})=>{
+                                return(
+                                    <TouchableOpacity onPress={()=>{
+                                        this.props.navigation.navigate('ProdDesc',{
+                                            id: item.id,
+                                            category: item.category,
+                                            img: item.img,
+                                            price: item.price,
+                                            name: item.name,
+                                            deliverstatus: item.deliverstatus,
+                                            paymentMode: item.paymentMode
+                                        })
+                                    }}>
+                                    <View style={styles.cont}>
+                                        <View style={{width:(Dimensions.get('window').width-10)/3}}>
+                                            <Image source={{uri: item.img}} style={styles.img} />
+                                        </View>
+                                        <View style={{width:(Dimensions.get('window').width-10)/3,flexDirection:'column',justifyContent:'flex-start'}}>
+                                            <View><Text style={styles.text1}>{item.name}</Text></View>
+                                            <View><Text style={styles.text2}>Rs.{item.price}/-</Text></View>
+                                        </View>
+                                        <View style={{width:(Dimensions.get('window').width-10)/3}}>
+                                        <View><Text style={[styles.text1,{color:'red',textAlign:'center'}]}>{item.deliverstatus}</Text></View>
+                                        </View>
+                                    </View>
+                                    </TouchableOpacity>
+                                )
+                            }}
+                            keyExtractor={(item)=>item.id}
+                            numColumns={1}
+                        />
+                    </ScrollView>
+                )
+            }
+        }
     }
 }
 const styles = StyleSheet.create({

@@ -6,7 +6,7 @@ export default class ProductCard extends React.Component{
     addToWish(){
         const {id,category} = this.props.item;
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://18.218.166.188:8080/addtowishlist",{
+            Axios.post("http://192.168.225.123:8000/addtowishlist",{
                 id: res,
                 product_id: id,
                 category: category

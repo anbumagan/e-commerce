@@ -30,8 +30,8 @@ export default class ProductDescScreen extends React.Component{
         const { navigation } = this.props;
         const id = navigation.getParam('id');
         const date = navigation.getParam('date')
-        AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://18.218.166.188:8080/cancelorder",{
+        /*AsyncStorage.getItem('userId').then((res)=>{
+            Axios.post("http://192.168.225.123:8000/cancelorder",{
                 id: res,
                 product_id: id,
                 date: date
@@ -43,7 +43,7 @@ export default class ProductDescScreen extends React.Component{
                     ToastAndroid.show(res1.data.message,ToastAndroid.SHORT)
                 }
             })
-        })
+        })*/
     }
     componentDidMount(){
         const { navigation } = this.props;
@@ -58,7 +58,7 @@ export default class ProductDescScreen extends React.Component{
                 pageStatus: 'order'
             })
         }
-        Axios.post("http://18.218.166.188:8080/retriveproduct",{
+        Axios.post("http://192.168.225.123:8000/retriveproduct",{
             product_id: id
         })
         .then((res)=>{

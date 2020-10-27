@@ -10,7 +10,7 @@ export default class extends React.Component{
     componentDidMount(){
         const { navigation } = this.props;  
         const category = navigation.getParam('category')
-        var url = "http://18.218.166.188:8080/"+category+"";
+        var url = "http://192.168.225.123:8000/"+category+"";
         Axios.get(url)
         .then((res)=>{
             var arr=[]
