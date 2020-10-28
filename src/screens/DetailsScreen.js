@@ -10,7 +10,7 @@ export default class DetailsScreens extends React.Component{
     componentDidMount(){
         AsyncStorage.getItem('userId').then((res)=>{
             console.log(res)
-            Axios.post("http://192.168.225.123:8000/api/customerdetails",{
+            Axios.post("http://18.216.5.45:8080/api/customerdetails",{
                 id: res
             }).then((res1)=>{
                 if(res1.data.mobile_no === undefined && res1.data.address === undefined){
@@ -29,7 +29,7 @@ export default class DetailsScreens extends React.Component{
         if(this.state.formStatus === false){
             return(
                 <View>
-                    <Text>jj</Text>
+                    <Text></Text>
                 </View>
             )
         }else{

@@ -7,7 +7,7 @@ export default class SignUpScreen extends React.Component{
     pass: null
   }
   SignUp(){
-    Axios.post("http://192.168.225.123:8000/api/signup",{
+    Axios.post("http://18.216.5.45:8080/api/signup",{
       email: this.state.email,
       password: this.state.pass
     })

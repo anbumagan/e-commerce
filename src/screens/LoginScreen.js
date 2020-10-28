@@ -7,7 +7,7 @@ export default class LoginScreen extends React.Component{
     pass: null
   }
   SignIn(){
-    Axios.post("http://192.168.225.123:8000/api/login",{
+    Axios.post("http://18.216.5.45:8080/api/login",{
       email: this.state.email,
       password: this.state.pass
     })

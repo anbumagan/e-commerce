@@ -16,7 +16,7 @@ export default class Carousel extends React.Component{
         this.scrollView = React.createRef();
     }
     componentDidMount(){
-        Axios.get("http://192.168.225.123:8000/carousel")
+        Axios.get("http://18.216.5.45:8080/carousel")
         .then((res)=>{
             var arr=[]
             for(var i=0;i<res.data.length;i++){

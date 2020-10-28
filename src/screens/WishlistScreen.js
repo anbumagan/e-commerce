@@ -17,7 +17,7 @@ export default class WishlistScreen extends React.Component{
             wish: this.state.wish.slice(0,i).concat(this.state.wish.slice(i+1,this.state.wish.length))
         })
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://192.168.225.123:8000/removewishlist",{
+            Axios.post("http://18.216.5.45:8080/removewishlist",{
                 id:res,
                 product_id: id
             })
@@ -29,12 +29,12 @@ export default class WishlistScreen extends React.Component{
     componentDidMount() {
         this.subs = this.props.navigation.addListener("didFocus", () =>
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://192.168.225.123:8000/retrivewishlist",{
+            Axios.post("http://18.216.5.45:8080/retrivewishlist",{
                 id:res
             }).then((res1)=>{
                 var arr = []
                 for(var i=0;i<res1.data.length;i++){
-                    Axios.post("http://192.168.225.123:8000/retriveproduct",{
+                    Axios.post("http://18.216.5.45:8080/retriveproduct",{
                         product_id: res1.data[i].product_id
                     })
                     .then((res2)=>{

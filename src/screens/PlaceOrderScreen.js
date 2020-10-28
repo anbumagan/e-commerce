@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React from 'react'
-import { Alert, AsyncStorage, Dimensions, Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Alert, AsyncStorage, Dimensions, Image, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
 
 export default class PlaceOrderScreen extends React.Component{
     state={
@@ -10,11 +10,12 @@ export default class PlaceOrderScreen extends React.Component{
         mobile: null,
         city:null,
         pin: null,dist:null,
-        formStatus: false
+        formStatus: false,
+        Load: true
     }
     updateAddr(){
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://192.168.225.123:8000/api/updatecustomerdetails",{
+            Axios.post("http://18.216.5.45:8080/api/updatecustomerdetails",{
                 id: res,
                 fn: this.state.fn,
                 ln:  this.state.ln,
@@ -33,7 +34,7 @@ export default class PlaceOrderScreen extends React.Component{
     }
     componentDidMount(){
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://192.168.225.123:8000/api/customerdetails",{
+            Axios.post("http://18.216.5.45:8080/api/customerdetails",{
                 id: res
             }).then((res1)=>{
                 if(res1.data[0].first_name !== null){
@@ -45,12 +46,14 @@ export default class PlaceOrderScreen extends React.Component{
                 city:res1.data[0].city,
                 pin: res1.data[0].pincode,
                 dist:res1.data[0].district,
-                formStatus: true
+                formStatus: true,
+                Load: false
             })}
             else{
                 this.setState({
                     formStatus: false
                 })
+                this.setState({Load: false})
             }
             })
         })
@@ -60,21 +63,37 @@ export default class PlaceOrderScreen extends React.Component{
         const  {navigation} = this.props;
         const pdt_id = navigation.getParam('pdt_id');
         const pdt_category = navigation.getParam('pdt_category'); 
-        AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://192.168.225.123:8000/placeorder",{
-                id: res,
-                productId: pdt_id,
-                category: pdt_category
-            }).then((res1)=>{
-                if(res1.data.status === 200){
-                    Alert.alert(res1.data.message)
-                    this.props.navigation.navigate('Home')
-                }else{
-                    Alert.alert(res1.data.message)
-                    this.props.navigation.goBack()
-                }
+        Alert.alert(
+            "",
+            "Are you sure to place order ?",
+            [
+              {
+                text: "No",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              { text: "Yes", onPress: () => 
+              AsyncStorage.getItem('userId').then((res)=>{
+                Axios.post("http://18.216.5.45:8080/placeorder",{
+                    id: res,
+                    productId: pdt_id,
+                    category: pdt_category
+                }).then((res1)=>{
+                    if(res1.data.status === 200){
+                        Alert.alert(res1.data.message)
+                        this.props.navigation.navigate('Home')
+                    }else{
+                        Alert.alert(res1.data.message)
+                        this.props.navigation.goBack()
+                    }
+                })
             })
-        })}else{
+
+            }
+            ],
+            { cancelable: false }
+          );
+        }else{
             ToastAndroid.show("please enter your address",ToastAndroid.SHORT)
         }
     }
@@ -83,6 +102,15 @@ export default class PlaceOrderScreen extends React.Component{
         const pdt_price = navigation.getParam('pdt_price');
         const pdt_img = navigation.getParam('pdt_img');
         const pdt_name = navigation.getParam('pdt_name')
+        if(this.state.Load === true){
+            return(
+                <View style={{flex:1,backgroundColor:'white',justifyContent:'center',alignContent:'center'}}>
+                    <ActivityIndicator color="rgb(58, 117, 254)" size='large'>
+
+                    </ActivityIndicator>
+                </View>
+            )
+        }else{
         return(
             <KeyboardAvoidingView keyboardVerticalOffset={0} behavior={Platform.OS == "ios" ? "padding" : "height"}
                 style={{flex:1,backgroundColor:'white',position:'relative',bottom:0}}>
@@ -194,7 +222,7 @@ export default class PlaceOrderScreen extends React.Component{
                     <Text style={styles.text3}>sorry only cash on delivery available!</Text>
                 </View>
             </KeyboardAvoidingView>
-        )
+        )}
     }
 }
 const styles = StyleSheet.create({

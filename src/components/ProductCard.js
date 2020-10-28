@@ -6,7 +6,7 @@ export default class ProductCard extends React.Component{
     addToWish(){
         const {id,category} = this.props.item;
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://192.168.225.123:8000/addtowishlist",{
+            Axios.post("http://18.216.5.45:8080/addtowishlist",{
                 id: res,
                 product_id: id,
                 category: category
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-evenly',
         width: Dimensions.get('window').width,
+        marginVertical:5
     },
     img:{
         width:(Dimensions.get('window').width)/4,

@@ -10,7 +10,7 @@ export default class OrdersScreen extends React.Component{
     }
     componentWillMount(){
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://192.168.225.123:8000/retriveorders",{
+            Axios.post("http://18.216.5.45:8080/retriveorders",{
                 id:res
             }).then((res1)=>{
                 var arr=[]
@@ -18,7 +18,7 @@ export default class OrdersScreen extends React.Component{
                     var d = res1.data[i].deliverstatus
                     var p = res1.data[i].paymentMode
                     var date = res1.data[i].date
-                    Axios.post("http://192.168.225.123:8000/retriveproduct",{
+                    Axios.post("http://18.216.5.45:8080/retriveproduct",{
                         product_id: res1.data[i].product_id
                     }).then((res2)=>{
                         arr.push({
@@ -37,11 +37,14 @@ export default class OrdersScreen extends React.Component{
                         })
                     })
                 }
+                this.setState({
+                    Load: false
+                })
             })
         })
         this.subs = this.props.navigation.addListener("didFocus",()=>{
         AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://192.168.225.123:8000/retriveorders",{
+            Axios.post("http://18.216.5.45:8080/retriveorders",{
                 id:res
             }).then((res1)=>{
                 var arr=[]
@@ -49,7 +52,7 @@ export default class OrdersScreen extends React.Component{
                     var d = res1.data[i].deliverstatus
                     var p = res1.data[i].paymentMode
                     var date = res1.data[i].date
-                    Axios.post("http://192.168.225.123:8000/retriveproduct",{
+                    Axios.post("http://18.216.5.45:8080/retriveproduct",{
                         product_id: res1.data[i].product_id
                     }).then((res2)=>{
                         arr.push({
@@ -68,12 +71,21 @@ export default class OrdersScreen extends React.Component{
                         })
                     })
                 }
+                this.setState({
+                    Load: false
+                })
             })
         })
     })
     }
     componentWillUnmount(){
        this.subs.remove()
+    }
+    sortByKey(array, key) {
+        return array.sort(function(a, b) {
+            var x = a[key]; var y = b[key];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+        });
     }
     render(){
         if(this.state.Load === true){
@@ -89,15 +101,16 @@ export default class OrdersScreen extends React.Component{
                 return(
                 <View style={{flex:1,backgroundColor:'white',justifyContent:'center',alignItems:'center'}}>
                     <View style={{position:'absolute',top:0}}><Header {...this.props}/></View>
-                    <Text style={styles.text2}>No more items in wishlist</Text>
+                    <Text style={styles.text2}>No more orders</Text>
                 </View>
                 )
             }else{
+                var orders = this.sortByKey(this.state.orders,"date")
                 return(
                     <ScrollView>
                         <Header {...this.props}/>
                         <FlatList 
-                            data={this.state.orders}
+                            data={orders.reverse()}
                             renderItem={({item})=>{
                                 return(
                                     <TouchableOpacity onPress={()=>{

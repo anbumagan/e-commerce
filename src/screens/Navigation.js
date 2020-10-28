@@ -10,10 +10,10 @@ import OrdersScreen from './OrdersScreen'
 import WishlistScreen from './WishlistScreen'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import DrawerScreen from './DrawerScreen'
-import ProductDescScreen from './DescScreen'
 import LoadingScreen from './LoadingScreen'
 import PlaceOrderScreen from './PlaceOrderScreen'
 import DetailsScreens from './DetailsScreen'
+import ProductDescScreen from './DescScreen'
 
 const AuthNav = createStackNavigator({
     Load:{
@@ -61,20 +61,23 @@ const MainNav = createStackNavigator({
     Prod:{
         screen: ProductScreen,
         navigationOptions : ({navigation}) =>({
-            headerTitle: <View><Text style={{textTransform:'uppercase',fontFamily:'Jost-Bold',fontSize:20,color:'grey'}}>Shop by category</Text></View>,
+            headerTitle: <View><Text style={{fontFamily:'Jost-SemiBold',fontSize:18,textTransform:'uppercase'}}>Anand & Co</Text></View>,
         })
     },
     ProdDesc:{
         screen: ProductDescScreen,
-        navigationOptions:{
-            headerShown:false
-        }
+        navigationOptions : ({navigation}) =>({
+            headerTitle: <View><Text style={{fontFamily:'Jost-SemiBold',fontSize:18,textTransform:'uppercase'}}>Anand & Co</Text></View>,
+        })
     },
     Details:{
         screen: DetailsScreens,
     },
     PlaceOrder:{
-        screen: PlaceOrderScreen
+        screen: PlaceOrderScreen,
+        navigationOptions : ({navigation}) =>({
+            headerTitle: <View><Text style={{fontFamily:'Jost-SemiBold',fontSize:18,textTransform:'uppercase'}}>Anand & Co</Text></View>,
+        })
     }
 })
 

@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import React from 'react'
-import { AsyncStorage, Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, AsyncStorage, Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, ToastAndroid, TouchableOpacity, View } from 'react-native'
 
 export default class ProductDescScreen extends React.Component{
     state = {
@@ -8,7 +8,8 @@ export default class ProductDescScreen extends React.Component{
         img: null,
         price: null,
         description: [],
-        pageStatus: null
+        pageStatus: null,
+        Load: true
     }
 
     Order(){
@@ -31,7 +32,7 @@ export default class ProductDescScreen extends React.Component{
         const id = navigation.getParam('id');
         const date = navigation.getParam('date')
         /*AsyncStorage.getItem('userId').then((res)=>{
-            Axios.post("http://192.168.225.123:8000/cancelorder",{
+            Axios.post("http://18.216.5.45:8080/cancelorder",{
                 id: res,
                 product_id: id,
                 date: date
@@ -58,7 +59,7 @@ export default class ProductDescScreen extends React.Component{
                 pageStatus: 'order'
             })
         }
-        Axios.post("http://192.168.225.123:8000/retriveproduct",{
+        Axios.post("http://18.216.5.45:8080/retriveproduct",{
             product_id: id
         })
         .then((res)=>{
@@ -68,12 +69,23 @@ export default class ProductDescScreen extends React.Component{
                 price: res.data.price,
                 description: res.data.description
             })
+            this.setState({Load: false})
+
         })
     }
     render(){
         const arr = this.state.description
         const { navigation } = this.props;
         const deliverstatus = navigation.getParam('deliverstatus')
+        if(this.state.Load === true){
+            return(
+                <View style={{flex:1,backgroundColor:'white',justifyContent:'center',alignContent:'center'}}>
+                    <ActivityIndicator color="rgb(58, 117, 254)" size='large'>
+
+                    </ActivityIndicator>
+                </View>
+            )
+        }else{
         return(
             <View style={{flex:1,backgroundColor:'white'}}>
                 <View style={{alignItems:'center',borderBottomWidth:0.5,borderColor:'grey'}}>
@@ -122,7 +134,7 @@ export default class ProductDescScreen extends React.Component{
                     </View>
                 }
             </View>
-        )
+        )}
     }
 }
 

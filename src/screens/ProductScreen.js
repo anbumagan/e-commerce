@@ -1,16 +1,17 @@
 import Axios from 'axios';
 import React from 'react'
-import { FlatList, ScrollView, Text, View } from 'react-native'
+import { ActivityIndicator, FlatList, ScrollView, Text, View } from 'react-native'
 import ProductCard from '../components/ProductCard';
 
 export default class extends React.Component{
     state={
-        product:[]
+        product:[],
+        Load: true
     }
     componentDidMount(){
         const { navigation } = this.props;  
         const category = navigation.getParam('category')
-        var url = "http://192.168.225.123:8000/"+category+"";
+        var url = "http://18.216.5.45:8080/"+category+"";
         Axios.get(url)
         .then((res)=>{
             var arr=[]
@@ -24,11 +25,21 @@ export default class extends React.Component{
                 })
             }
             this.setState({
-                product: arr
+                product: arr,
+                Load: false
             })
         })
     }
     render(){
+        if(this.state.Load === true){
+            return(
+                <View style={{flex:1,backgroundColor:'white',justifyContent:'center',alignContent:'center'}}>
+                    <ActivityIndicator color="rgb(58, 117, 254)" size='large'>
+
+                    </ActivityIndicator>
+                </View>
+            )
+        }else{
         return(
             <View style={{flex:1,backgroundColor:'white'}}>
                 <Text style={{
@@ -49,6 +60,6 @@ export default class extends React.Component{
                     numColumns={1}
                 />
             </View>
-        )
+        )}
     }
 }
