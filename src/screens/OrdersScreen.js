@@ -107,7 +107,7 @@ export default class OrdersScreen extends React.Component{
             }else{
                 var orders = this.sortByKey(this.state.orders,"date")
                 return(
-                    <ScrollView>
+                    <ScrollView style={{flex:1,backgroundColor:'white'}}>
                         <Header {...this.props}/>
                         <FlatList 
                             data={orders.reverse()}

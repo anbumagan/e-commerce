@@ -142,10 +142,11 @@ const styles = StyleSheet.create({
     img:{
         width: Dimensions.get('window').width-20,
         height:(Dimensions.get('window').width-20)/1.5,
-        resizeMode:'contain'
+        resizeMode:'contain',
+        margin:10
     },
     text1:{
-        fontFamily:'Jost-Regular',
+        fontFamily:'Jost-Medium',
         fontSize:20,
         color:'grey',
         textTransform:'capitalize',
@@ -185,13 +186,14 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'center',
         width:Dimensions.get('window').width,
-        marginVertical:10
+        marginVertical:5
     },
     desctext:{
         width:(Dimensions.get('window').width-20)/3,
         fontFamily:'Jost-Regular',
         fontSize:18,
         color:'rgb(58, 117, 254)',
-        textTransform:'capitalize'
+        textTransform:'capitalize',
+        padding:5
     }
 })

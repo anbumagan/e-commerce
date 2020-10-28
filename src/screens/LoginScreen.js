@@ -43,6 +43,7 @@ export default class LoginScreen extends React.Component{
                     <View style={styles.fieldSet}>
                         <Text style={styles.legend}> Password </Text>
                         <TextInput
+                          secureTextEntry={true}
                           value = {this.state.pass}
                           onChangeText = {(text)=>{this.setState({pass: text})}}
                         />

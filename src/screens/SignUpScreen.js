@@ -42,6 +42,7 @@ export default class SignUpScreen extends React.Component{
                     <View style={styles.fieldSet}>
                         <Text style={styles.legend}> Password </Text>
                         <TextInput
+                                                  secureTextEntry={true}
                           value={this.state.pass}
                           onChangeText={(text)=>{this.setState({pass: text})}} 
                         />
@@ -49,6 +50,7 @@ export default class SignUpScreen extends React.Component{
                     <View style={styles.fieldSet}>
                         <Text style={styles.legend}> Confirm password </Text>
                         <TextInput
+                                                  secureTextEntry={true}
                         />
                     </View> 
                     </View>
